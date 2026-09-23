@@ -46,9 +46,9 @@ const Charts = {
     [2, 4, 6, 8, 10].forEach(v => {
       const y = yOf(v);
       grid += `<line x1="${pad.l}" y1="${y.toFixed(1)}" x2="${W - pad.r}" y2="${y.toFixed(1)}"
-        stroke="rgba(123,107,255,.10)" stroke-width="1" stroke-dasharray="3 5"/>
+        stroke="rgba(109,97,72,.16)" stroke-width="1" stroke-dasharray="3 5"/>
         <text x="${pad.l - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end"
-        font-size="10" fill="#A9A4C8">${v}</text>`;
+        font-size="10" fill="#B0A78F">${v}</text>`;
     });
 
     // x 轴标签
@@ -57,7 +57,7 @@ const Charts = {
     points.forEach((p, i) => {
       if (i % step === 0 || i === n - 1) {
         xlab += `<text x="${xOf(i).toFixed(1)}" y="${H - 8}" text-anchor="middle"
-          font-size="10" fill="#A9A4C8">${p.date.getMonth() + 1}/${p.date.getDate()}</text>`;
+          font-size="10" fill="#B0A78F">${p.date.getMonth() + 1}/${p.date.getDate()}</text>`;
       }
     });
 
@@ -68,13 +68,13 @@ const Charts = {
       <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:${H}px">
         <defs>
           <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#7C6BFF" stop-opacity=".26"/>
-            <stop offset="55%" stop-color="#B79BFF" stop-opacity=".10"/>
+            <stop offset="0%" stop-color="#3F5E96" stop-opacity=".22"/>
+            <stop offset="55%" stop-color="#9FB0CE" stop-opacity=".08"/>
             <stop offset="100%" stop-color="#FFB0C8" stop-opacity="0"/>
           </linearGradient>
           <linearGradient id="${gradId}s" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#7C6BFF"/>
-            <stop offset="100%" stop-color="#FF8FB4"/>
+            <stop offset="0%" stop-color="#3F5E96"/>
+            <stop offset="100%" stop-color="#C9584F"/>
           </linearGradient>
         </defs>
         ${grid}${xlab}
@@ -88,7 +88,7 @@ const Charts = {
           stroke="#7C6BFF" stroke-width="1" stroke-dasharray="4 4" opacity="0"/>
         <circle class="hl" r="6" fill="#7C6BFF" opacity="0"/>
         <g class="tipg" opacity="0">
-          <rect rx="8" fill="rgba(29,26,49,.92)" height="34" width="96" x="0" y="0"/>
+          <rect rx="8" fill="rgba(61,55,45,.94)" height="34" width="96" x="0" y="0"/>
           <text class="t1" font-size="11" fill="#fff" x="0" y="0"></text>
           <text class="t2" font-size="11" fill="#C9C4F0" x="0" y="0"></text>
         </g>
@@ -173,10 +173,10 @@ const Charts = {
 
     el.innerHTML = `
       <svg viewBox="0 0 ${S} ${S}" style="max-width:230px;margin:0 auto">
-        <circle cx="${S / 2}" cy="${S / 2}" r="${R}" fill="none" stroke="rgba(124,107,255,.08)" stroke-width="26"/>
+        <circle cx="${S / 2}" cy="${S / 2}" r="${R}" fill="none" stroke="rgba(109,97,72,.12)" stroke-width="26"/>
         ${arcs}
         <text x="${S / 2}" y="${S / 2 - 2}" text-anchor="middle" font-size="26" font-weight="700" fill="#1D1A31">${total}</text>
-        <text x="${S / 2}" y="${S / 2 + 18}" text-anchor="middle" font-size="11" fill="#A9A4C8">次记录</text>
+        <text x="${S / 2}" y="${S / 2 + 18}" text-anchor="middle" font-size="11" fill="#B0A78F">次记录</text>
       </svg>`;
     el.querySelectorAll('.dseg').forEach((c, i) => {
       const len = c.getTotalLength ? c.getTotalLength() : C;
@@ -194,10 +194,10 @@ const Charts = {
     let html = `<div style="overflow-x:auto"><table style="border-collapse:separate;border-spacing:5px;width:100%;min-width:420px">`;
     html += `<tr><td></td>${cols.map(c => `<td style="font-size:10.5px;color:var(--ink-400);text-align:center;padding-bottom:2px">${c}</td>`).join('')}</tr>`;
     const cellColor = v => {
-      if (v === null) return 'rgba(124,107,255,.06)';
+      if (v === null) return 'rgba(122,112,88,.07)';
       const t = Math.max(0, Math.min(1, (v - 1) / 9));
       // 低 → 冷紫，高 → 暖橙
-      const stops = [[169, 155, 232], [182, 155, 224], [201, 194, 245], [255, 210, 150], [255, 180, 92]];
+      const stops = [[138,158,196],[163,178,208],[206,199,178],[242,205,142],[233,166,88]];
       const i = Math.min(stops.length - 1, Math.floor(t * stops.length));
       const c = stops[i];
       return `rgb(${c[0]},${c[1]},${c[2]})`;
@@ -238,8 +238,8 @@ const Charts = {
       const g = map[d.toDateString()];
       const v = g ? g.sum / g.n : null;
       const t = v === null ? -1 : Math.max(0, Math.min(1, (v - 1) / 9));
-      const bg = v === null ? 'rgba(124,107,255,.07)'
-        : t < 0.25 ? '#C9C2F5' : t < 0.4 ? '#A99BE8' : t < 0.55 ? '#B69BE0' : t < 0.7 ? '#FFC27A' : '#FFB45C';
+      const bg = v === null ? 'rgba(122,112,88,.07)'
+        : t < 0.25 ? '#D9CBA8' : t < 0.4 ? '#B0BFD9' : t < 0.55 ? '#8FA3C9' : t < 0.7 ? '#F2CD8E' : '#E9A658';
       cells += `<div class="heat-cell" style="background:${bg}"
         title="${fmtDate(d)}${v !== null ? ' · 情绪值 ' + v.toFixed(1) : ' · 未记录'}"></div>`;
     }

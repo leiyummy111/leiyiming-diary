@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#7C6BFF">
-<meta name="description" content="MoodIsle 情绪小岛 · AI 驱动的情绪日记与自我关怀工具：记录情绪变化、分析触发因素、推荐冥想 / 音乐 / 运动等自助调节方案。">
+<meta name="description" content="MoodIsle 情绪小岛 · 一本会帮你看清自己的情绪手账：记录心情、找出触发因素、给你合适的呼吸 / 冥想 / 音乐 / 运动。">
 <title>MoodIsle 情绪小岛 · 情绪日记与自我关怀</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏝️</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -62,8 +62,8 @@
         <div class="hero-inner">
           <div>
             <div class="hero-badge">🌤️ <span id="heroDate">—</span></div>
-            <h2 id="heroTitle">今天，你的心里是什么天气？</h2>
-            <p id="heroText">花 30 秒记录此刻的感受，让情绪被看见。写下它，就是照顾自己的第一步。</p>
+            <h2 id="heroTitle">今天的心里天气，写下来吧</h2>
+            <p id="heroText">不用长篇大论，一两句就好。写下来的那一刻，情绪就有了去处。</p>
           </div>
           <div class="hero-stat">
             <div><b id="heroMood">—</b><span>今日心情</span></div>
@@ -123,15 +123,15 @@
           <div class="ai-head">
             <div class="ai-avatar">✨</div>
             <div>
-              <h4>小岛 AI 的今日观察</h4>
-              <div class="tip">基于你最近的记录自动生成</div>
+              <h4>小岛手记 · 今天的观察</h4>
+              <div class="tip">写在你日记边上的话</div>
             </div>
           </div>
           <div class="ai-text" id="homeAiText">—</div>
           <div class="ai-actions" id="homeAiActions"></div>
         </div>
         <div class="card reveal">
-          <div class="card-title"><h3>🌿 此刻推荐</h3><span class="sub">按当前情绪匹配</span></div>
+          <div class="card-title"><h3>🌿 心情急救包</h3><span class="sub">挑一个，现在就试试</span></div>
           <div id="homeCare"></div>
         </div>
       </div>
@@ -141,8 +141,8 @@
     <section class="page" id="page-record">
       <div class="topbar">
         <div class="greeting">
-          <h1>写下此刻</h1>
-          <p>不需要完整，也不需要好看。真实的那一句就够。</p>
+          <h1>提笔，写一笔</h1>
+          <p>不用写得好看，真实的那一句就够。</p>
         </div>
         <div class="topbar-actions">
           <button class="btn btn-ghost" id="btnVoice">🎙️ 语音转写</button>
@@ -180,8 +180,8 @@
             <div class="ai-head">
               <div class="ai-avatar">🧠</div>
               <div>
-                <h4>实时情绪理解</h4>
-                <div class="tip">边写边分析 · 完全本地运行</div>
+                <h4>边写边读懂你</h4>
+                <div class="tip">全程在本地 · 不上传任何内容</div>
               </div>
             </div>
             <div class="ai-text" id="liveAi">
@@ -202,8 +202,8 @@
     <section class="page" id="page-insight">
       <div class="topbar">
         <div class="greeting">
-          <h1>情绪洞察</h1>
-          <p>把散落的感受连成线，看清情绪的来处与规律。</p>
+          <h1>翻翻规律</h1>
+          <p>把散落的感受连成线，看看情绪都从哪儿来。</p>
         </div>
         <div class="topbar-actions">
           <div class="seg" id="insightRange">
@@ -259,8 +259,8 @@
         <div class="ai-head">
           <div class="ai-avatar">🔍</div>
           <div>
-            <h4>小岛 AI 发现的规律</h4>
-            <div class="tip">基于统计显著性的自动归纳</div>
+            <h4>小岛手记 · 翻出来的规律</h4>
+            <div class="tip">从你的记录里归纳出来的</div>
           </div>
         </div>
         <div id="insightList"></div>
@@ -271,8 +271,8 @@
     <section class="page" id="page-care">
       <div class="topbar">
         <div class="greeting">
-          <h1>自我关怀</h1>
-          <p>不需要立刻好起来，先让身体和呼吸慢下来。</p>
+          <h1>抱抱自己</h1>
+          <p>不急着好起来，先让呼吸慢下来。</p>
         </div>
         <div class="topbar-actions">
           <div class="seg" id="careMoodSeg"></div>
@@ -321,7 +321,7 @@
       </div>
 
       <div class="card" style="margin-bottom:18px">
-        <div class="card-title"><h3>💡 为「<span id="careFor">此刻</span>」定制的方案</h3><span class="sub">点击卡片开始练习</span></div>
+        <div class="card-title"><h3>💡 心情是「<span id="careFor">此刻</span>」的话</h3><span class="sub">点一张卡片，跟着做</span></div>
         <div class="grid grid-4" id="careRecs"></div>
       </div>
 
@@ -367,8 +367,8 @@
     <section class="page" id="page-chat">
       <div class="topbar">
         <div class="greeting">
-          <h1>和小岛聊聊</h1>
-          <p>一个不会评判你的倾听者，随时都在。</p>
+          <h1>找小岛聊聊</h1>
+          <p>它不评判你，也一直都在。</p>
         </div>
       </div>
       <div class="card" style="padding:18px">

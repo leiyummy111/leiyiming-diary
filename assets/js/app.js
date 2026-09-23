@@ -77,17 +77,17 @@ function renderHome() {
   const h = now.getHours();
   const hello = h < 6 ? '还没睡呀' : h < 11 ? '早上好' : h < 14 ? '中午好' : h < 18 ? '下午好' : h < 23 ? '晚上好' : '夜深了';
   $('#greetTitle').textContent = `${hello}，欢迎回到小岛 🏝️`;
-  $('#greetSub').textContent = entries.length ? '你的情绪都在这里被好好收着。' : '先记录一次，小岛就能开始认识你了。';
+  $('#greetSub').textContent = entries.length ? '今天也把心情好好收进本子里。' : '写下第一篇，小岛就开始认识你了。';
   $('#heroDate').textContent = `${now.getMonth() + 1} 月 ${now.getDate()} 日 · ${dayLabel(now)}`;
 
   const today = entries.filter(e => new Date(e.t).toDateString() === now.toDateString());
   const last = entries[0];
   $('#heroTitle').textContent = today.length
-    ? '今天已经记下过心情了，想再补一笔吗？'
-    : '今天，你的心里是什么天气？';
+    ? '今天记过了，想再补一笔吗？'
+    : '今天的心里天气，写下来吧';
   $('#heroText').textContent = today.length
     ? `最近一次记录：${moodOf(last.mood).n}，${relativeTime(last.t)}。随时可以回来补充。`
-    : '花 30 秒记录此刻的感受，让情绪被看见。写下它，就是照顾自己的第一步。';
+    : '不用长篇大论，一两句就好。写下来的那一刻，情绪就有了去处。';
   $('#heroMood').textContent = today.length ? moodOf(today[0].mood).e : (last ? moodOf(last.mood).e : '—');
   const streak = Stats.streak(entries);
   $('#heroStreak').textContent = streak;
@@ -120,7 +120,7 @@ function renderHome() {
   $('#statTriggerTrend').textContent = tr.length ? `出现 ${tr[0].n} 次 · 均值 ${tr[0].avg.toFixed(1)}` : '近 30 天统计';
   const cc = Store.careCount();
   $('#statCare').innerHTML = cc + '<small>次</small>';
-  $('#statCareTrend').textContent = cc ? '每一次都是照顾自己的证据' : '去「关怀」页完成第一个练习';
+  $('#statCareTrend').textContent = cc ? '每一次都是照顾自己的证据' : '去「关怀」页做一个练习试试';
 
   // 曲线
   Charts.line($('#homeChart'), Stats.daily(homeRange, entries), { height: 220 });
@@ -293,7 +293,7 @@ function renderInsight() {
     <div class="bar-row" data-tfilter="${x.k}" style="cursor:pointer">
       <div class="bar-top"><span>${esc(triggerName(x.k))}</span>
         <span style="color:var(--ink-400)">${x.n} 次 · 均值 ${x.avg.toFixed(1)}</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(x.n / max * 100).toFixed(0)}%;background:linear-gradient(90deg,${x.avg < 4.5 ? '#B69BE0,#FF8FB4' : '#7C6BFF,#A78BFA'})"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(x.n / max * 100).toFixed(0)}%;background:repeating-linear-gradient(-45deg,${x.avg < 4.5 ? '#C9584F 0 5px, #D97066 5px 10px' : '#3F5E96 0 5px, #5578B0 5px 10px'})"></div></div>
     </div>`).join('') : `<div class="empty"><div class="em">🎯</div><p>暂无触发因素数据</p></div>`;
   $$('#triggerBars [data-tfilter]').forEach(el => {
     el.onclick = () => { openEntriesByTrigger(el.dataset.tfilter); };
@@ -648,7 +648,7 @@ function renderDiary() {
   }
 
   if (!list.length) {
-    $('#diaryList').innerHTML = `<div class="empty"><div class="em">🔍</div><p>没有匹配的日记</p></div>`;
+    $('#diaryList').innerHTML = `<div class="empty"><div class="em">🔍</div><p>没翻到这一页</p></div>`;
     return;
   }
 
@@ -951,3 +951,32 @@ if (location.hash) {
   const p = location.hash.replace('#', '');
   if (NAV.some(n => n.k === p)) go(p);
 }
+
+
+/* ============================== 墨水涟漪：全局点击反馈 ============================== */
+const RIPPLE_SEL = '.btn, .nav-item, .mood-chip, .tag, .sound-card, .care-card, .diary-item, .send-btn, .seg button, .tabbar button';
+document.addEventListener('click', e => {
+  const t = e.target.closest(RIPPLE_SEL);
+  if (!t) return;
+  const cs = getComputedStyle(t);
+  if (cs.position === 'static') t.style.position = 'relative';
+  if (cs.overflow !== 'hidden') t.style.overflow = 'hidden';
+  const rect = t.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height) * 1.4;
+  const r = document.createElement('span');
+  r.className = 'ink-ripple';
+  r.style.width = r.style.height = size + 'px';
+  r.style.left = (e.clientX - rect.left - size / 2) + 'px';
+  r.style.top = (e.clientY - rect.top - size / 2) + 'px';
+  t.appendChild(r);
+  setTimeout(() => r.remove(), 600);
+}, true);
+
+/* 日记条目 / 便签：鼠标进入时轻推一下 */
+document.addEventListener('mouseover', e => {
+  const em = e.target.closest('.care-card .em, .sound-card .em, .diary-dot');
+  if (em && !em.dataset.jiggled) {
+    em.dataset.jiggled = '1';
+    setTimeout(() => { delete em.dataset.jiggled; }, 800);
+  }
+});
